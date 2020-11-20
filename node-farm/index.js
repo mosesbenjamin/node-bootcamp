@@ -1,5 +1,6 @@
 const http = require('http')
 const fs = require('fs')
+const url = require('url')
 
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
@@ -25,7 +26,9 @@ const replaceTemplate = (temp, product) => {
 }
 
 const server = http.createServer((req, res)=> {
-    const pathname = req.url
+
+    const {query, pathname} = url.parse(req.url, true)
+
 
     // OVERVIEW PAGE
     if(pathname === '/' || pathname === '/overview'){
@@ -38,7 +41,11 @@ const server = http.createServer((req, res)=> {
 
         // Product page
     } else if(pathname === '/product'){
-        res.end('This is the PRODUCT')
+        const product = dataObj[query.id]
+        res.writeHead(200, {'Content-Type': 'text/html'})
+        const output = replaceTemplate(tempProduct, product)
+
+        res.end(output)
 
         // API
     } else if(pathname === '/api'){ 
