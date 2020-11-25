@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const colors = require('colors')
 
 const app = require('./app')
-dotenv.config({ path: './config.env' })
+dotenv.config()
 
 const connectDB = async () => {
     try {
