@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const colors = require('colors')
 
-const app = require('./app')
 dotenv.config()
+const app = require('./app')
+
 
 const connectDB = async () => {
     try {
