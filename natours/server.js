@@ -6,25 +6,22 @@ dotenv.config()
 const app = require('./app')
 
 
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.DATABASE,  {
-            useNewUrlParser: true,
-            useCreateIndex: true,
-            useUnifiedTopology: true
-        })
-        console.log( `DB connection successful. \n${conn.connection.host}`.cyan.underline)
-    } catch (error) {
-        console.error(error);
-        process.exit(1)
-    }
-}
-
-connectDB()
-
+mongoose.connect(process.env.DATABASE,  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+}).then(()=> console.log( `DB connection successful. \n${conn.connection.host}`.cyan.underline))
 
 // START SERVER
 const port = process.env.PORT || 3000
-app.listen(port, ()=> {
+const server = app.listen(port, ()=> {
     console.log(`App running on port ${port}...`)
+})
+
+process.on('unhandledRejection', err => {
+    console.log(err.name, err.message)
+    console.log('UNHANDLED REJECTION! Shutting down...')
+    server.close(()=> {
+        process.exit(1)
+    })
 })
