@@ -41,8 +41,12 @@ const userSchema = mongoose.Schema({
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
-    photo: String
-
+    photo: String,
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 })
 
 userSchema.pre('save', async function (next) { 
@@ -61,6 +65,12 @@ userSchema.pre('save', function (next) {
     if (!this.isModified('password') || this.isNew) return next()
 
     this.passwordChangedAt = Date.now() - 1000
+    next()
+})
+
+userSchema.pre(/^find/, function (next) {
+    // This points to the current user
+    this.find({active: {$ne: false}})
     next()
 })
 

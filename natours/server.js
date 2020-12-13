@@ -15,7 +15,8 @@ const app = require('./app')
 mongoose.connect(process.env.DATABASE,  {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }).then(()=> console.log( `DB connection successful.`.cyan.underline))
 
 // START SERVER
