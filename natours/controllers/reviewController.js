@@ -4,7 +4,10 @@ const AppError = require('../utils/appError')
 const Review = require('../models/reviewModel')
 
 const getAllReviews = catchAsync ( async (req, res, next) => {
-    const reviews = await Reviews.find()
+    let filter
+    if(req.params.tourId) filter = { tour: req.params.tourId }
+
+    const reviews = await Reviews.find(filter)
 
     res.status(200).json({
         status: 'success',
