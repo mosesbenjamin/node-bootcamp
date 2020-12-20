@@ -36,6 +36,9 @@ const reviewSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 })
 
+// Supposed to prevent the same user adding >1 review for the same tour
+// reviewSchema.index({ tour: 1, user: 1 }, { unique: true })
+
 reviewSchema.pre(/^find/, function (next) {
     // this.populate({
     //     path: 'tour',
@@ -55,8 +58,6 @@ reviewSchema.pre(/^find/, function (next) {
 })
 
 reviewSchema.statics.calcAverageRatings = async function (tourId) {
-
-
     const stats = await this.aggregate([
         {
             $match: {tour: tourId}
@@ -70,7 +71,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
         }
     ])
 
-    console.log(stats)
+    // console.log(stats)
 
     if(stats.length > 0){
         await Tour.findByIdAndUpdate(tourId, {
