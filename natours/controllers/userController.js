@@ -41,6 +41,11 @@ const deleteMe = catchAsync( async(req, res, next) => {
     })
 })
 
+const getMe = (req, res, next) => {
+    req.params.id = req.user.id
+    next()
+}
+
 const getUser = factory.getOne(User)
 
 const createUser = ((req, res)=> {
@@ -64,5 +69,5 @@ module.exports = {
     updateUser, 
     deleteUser,
     updateMe,
-    deleteMe
+    deleteMe,getMe
 }
