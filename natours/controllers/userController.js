@@ -65,12 +65,8 @@ const createUser = ((req, res)=> {
     })
 })
 
-const updateUser = ((req, res)=> {
-    res.status(500).json({
-        status: 'error',
-        message: 'This route is not yet defined'
-    })
-})
+// DO NOT UPDATE PASSWORD WITH THIS!!
+const updateUser = factory.updateOne(User)
 
 const deleteUser = factory.deleteOne(User)
 
