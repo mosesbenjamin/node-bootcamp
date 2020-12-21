@@ -9,7 +9,8 @@ const {
     aliasTopTours,
     getTourStats,
     getMonthlyPlan,
-    getToursWithin
+    getToursWithin,
+    getDistances
 } = require('../controllers/tourController')
 
 const {
@@ -36,6 +37,8 @@ router.route('/monthly-plan/:year')
 
 // /tours-within?distance=300&latlng=-40,30&unit=mi       Using query strings
 router.route('/tours-within/:distance/latlng/:latlng/unit/:unit').get(getToursWithin)
+
+router.route('/distances/:latlng/unit/:unit').get(getDistances)
 
 router.route('/')
     .get(getAllTours)
